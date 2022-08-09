@@ -1,6 +1,6 @@
 class Localuser {
-  final String uid;
+  String? uid;
 
-  Localuser({required this.uid});
+  Localuser({this.uid});
 
 }
