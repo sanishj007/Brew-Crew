@@ -1,3 +1,4 @@
+import 'package:brew_crew/Shared/Loading.dart';
 import 'package:brew_crew/Shared/constants.dart';
 import'package:flutter/material.dart';
 
@@ -17,6 +18,7 @@ import '../../services/auth.dart';
 
       final AuthService _auth =AuthService();
       final _formKey = GlobalKey<FormState>();
+      bool loading = false;
 
       //text field state
       String email = '';
@@ -25,7 +27,7 @@ import '../../services/auth.dart';
 
       @override
       Widget build(BuildContext context) {
-        return Scaffold(
+        return loading? Loading() : Scaffold(
           backgroundColor: Colors.brown[100],
           appBar: AppBar(
             backgroundColor: Colors.brown[400],
@@ -76,10 +78,12 @@ import '../../services/auth.dart';
                         style: TextStyle( color: Colors.white),
                       ),
                       onPressed: () async {
+                        loading = true;
                         if(_formKey.currentState!.validate()){
                           dynamic result = await _auth.registerWithEmailAndPassword(email,password);
                           if (result == null){
                             setState(() => error = 'Please provide a valid Email');
+                            loading = false;
                           }
                         };
                       },
